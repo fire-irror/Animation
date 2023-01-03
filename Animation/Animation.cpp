@@ -3,10 +3,36 @@
 
 using namespace sf;
 
+struct Player{
+    RectangleShape sprite;
+    int fps;    //frames per sec
+    int idx;    //animation index
+};
+
+
 int main(void)
 {
     RenderWindow window(VideoMode(1200, 800), "Animation");
     window.setFramerateLimit(60);
+
+    Texture run[10];
+    run[0].loadFromFile("./animation/Run__000.png");
+    run[1].loadFromFile("./animation/Run__001.png");
+    run[2].loadFromFile("./animation/Run__002.png");
+    run[3].loadFromFile("./animation/Run__003.png");
+    run[4].loadFromFile("./animation/Run__004.png");
+    run[5].loadFromFile("./animation/Run__005.png");
+    run[6].loadFromFile("./animation/Run__006.png");
+    run[7].loadFromFile("./animation/Run__007.png");
+    run[8].loadFromFile("./animation/Run__008.png");
+    run[9].loadFromFile("./animation/Run__009.png");
+
+    struct Player player;
+    player.fps = 10;
+    player.sprite.setTexture(&run[0]);
+    player.sprite.setSize(Vector2f(90, 120));
+    player.sprite.setPosition(200, 600);
+
 
     while (window.isOpen())
     {
@@ -22,6 +48,11 @@ int main(void)
                 break;
             }
         }
+        window.clear(Color::Magenta);
+
+        window.draw(player.sprite);
+
+        window.display();
     }
 
     return 0;
