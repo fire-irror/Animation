@@ -22,6 +22,7 @@ int main(void)
 
 	long start_time;
 	long spent_time;
+	int gravity = 10;
 
 	Texture run[10];
 	run[0].loadFromFile("./animation/Run__000.png");
@@ -58,6 +59,11 @@ int main(void)
 			case Event::Closed:
 				window.close();
 				break;
+			case Event::KeyPressed:
+				if (event.key.code == Keyboard::Space) {
+					//มกวม
+					player.sprite.move(0, -3);
+				}
 			default:
 				break;
 			}
