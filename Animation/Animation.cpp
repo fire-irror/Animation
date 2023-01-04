@@ -22,7 +22,8 @@ int main(void)
 
 	long start_time;
 	long spent_time;
-	int gravity = 10;
+	const int GRAVITY = 10;
+	const int PLAYFORM_Y = 400;	//∂•πŸ¥⁄¿« y¡¬«•
 
 	Texture run[10];
 	run[0].loadFromFile("./animation/Run__000.png");
@@ -41,7 +42,7 @@ int main(void)
 	player.idx = 0;
 	player.sprite.setTexture(&run[0]);
 	player.sprite.setSize(Vector2f(90, 120));
-	player.sprite.setPosition(200, 400);
+	player.sprite.setPosition(200, 200);
 	player.ani_delay = 1000 / player.frames / 2;		// 0.5√ πŸ¥Ÿ ∞…¿Ω
 	player.speed = 5;
 
@@ -87,6 +88,10 @@ int main(void)
 			player.sprite.setTexture(&run[player.idx % player.frames]);
 			player.idx++;
 		}
+
+		player.sprite.move(0,GRAVITY);
+
+
 
 		window.clear(Color::Magenta);
 
