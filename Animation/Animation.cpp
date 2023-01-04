@@ -12,6 +12,9 @@ struct Player {
 	long ani_time;  //animation change time
 	long ani_delay;	//animation delay
 	int speed;
+	int is_jumping;	//during jumping
+	int jumping_time;	//start jumping time
+	int jump_speed;
 };
 
 
@@ -22,8 +25,8 @@ int main(void)
 
 	long start_time;
 	long spent_time;
-	const int GRAVITY = 10;
-	const int PLAYFORM_Y = 400;	//땅바닥의 y좌표
+	const int GRAVITY = 5;
+	const int PLATFORM_Y = 400;	//땅바닥의 y좌표
 
 	Texture run[10];
 	run[0].loadFromFile("./animation/Run__000.png");
@@ -45,9 +48,12 @@ int main(void)
 	player.sprite.setPosition(200, 200);
 	player.ani_delay = 1000 / player.frames / 2;		// 0.5초바다 걸음
 	player.speed = 5;
+	player.jump_speed = GRAVITY * 2;
 
 	start_time = clock();
 	player.ani_time = start_time;
+	player.jumping_time = start_time;
+	player.is_jumping = 0;
 
 	while (window.isOpen())
 	{
@@ -63,7 +69,10 @@ int main(void)
 			case Event::KeyPressed:
 				if (event.key.code == Keyboard::Space) {
 					//점프
-					player.sprite.move(0, -3);
+					if (player.is_jumping == 0) {
+						player.jumping_time = spent_time;
+					}
+					player.is_jumping = 1;
 				}
 			default:
 				break;
@@ -89,8 +98,22 @@ int main(void)
 			player.idx++;
 		}
 
+		//필요하다면 1000을 나중에 변수 처리할것
+		if (spent_time - player.jumping_time > 1000)
+		{
+			player.is_jumping = 0;
+		}
 		player.sprite.move(0,GRAVITY);
 
+		if (player.is_jumping == 1) {
+			player.sprite.move(0, -player.jump_speed);
+		}
+
+		// 플레이어가 땅바닥에 착지하면
+		if (player.sprite.getPosition().y + player.sprite.getSize().y > PLATFORM_Y) {
+			// 더 이상 내려갈 수 없게 한다.
+			player.sprite.setPosition(player.sprite.getPosition().x, PLATFORM_Y - player.sprite.getSize().y);
+		}
 
 
 		window.clear(Color::Magenta);
