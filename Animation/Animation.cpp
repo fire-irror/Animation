@@ -107,7 +107,7 @@ int main(void)
 
 		if (player.is_jumping == 1) {
 			player.sprite.move(0, -player.jump_speed);
-		}
+		} 
 
 		// ÇÃ·¹ÀÌ¾î°¡ ¶¥¹Ù´Ú¿¡ ÂøÁöÇÏ¸é
 		if (player.sprite.getPosition().y + player.sprite.getSize().y > PLATFORM_Y) {
